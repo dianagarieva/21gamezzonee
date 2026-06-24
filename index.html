@@ -171,6 +171,19 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
 
 .err { color: #ef4444; font-size: 12px; margin-top: 10px; text-align: center; min-height: 18px; }
 .loading { color: #6b7280; font-size: 12px; margin-top: 10px; text-align: center; }
+.sync-status {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  z-index: 1000;
+  display: none;
+}
+.sync-status.show { display: block; }
+.sync-status.ok { background: rgba(34,197,94,0.2); color: #22c55e; border: 1px solid #22c55e; }
+.sync-status.err { background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid #ef4444; }
 
 .sec-title {
   font-family: 'Orbitron', -apple-system, sans-serif;
@@ -606,6 +619,8 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
 
 <main id="root"></main>
 
+<div id="syncStatus" class="sync-status"></div>
+
 <script>
 // JSONBIN.IO CONFIGURATION
 const BIN_ID = '6a3b77d1da38895dfef5b2c2';
@@ -616,10 +631,10 @@ const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 var PLATFORMS = [
   {id:'PS5',  icon:'🎮', label:'PlayStation 5'},
   {id:'XBOX', icon:'🟢', label:'Xbox Series X'},
-  {id:'VR',   icon:'🥽', label:'Meta Quest VR'}
+  {id:'VR',   icon:'', label:'Meta Quest VR'}
 ];
 
-var EMO = {'RPG':'','Шутер':'🔫','Экшн':'⚔️','Файтинг':'🥊','Гонки':'🏎️',
+var EMO = {'RPG':'🧙','Шутер':'🔫','Экшн':'⚔️','Файтинг':'','Гонки':'🏎️',
   'Футбол':'⚽','Баскетбол':'🏀','Ритм':'🎵','Пазлы':'🧩','Хоррор':'👻',
   'Гольф':'⛳','Теннис':'🏓','MMORPG':'🌐','Sci-Fi':'🚀','Инди':'','def':'🎮'};
 
@@ -643,23 +658,66 @@ var bookings = [];
 var GAMES = [];
 var isLoading = true;
 var saveTimeout = null;
+var syncInProgress = false;
 
-// JSONBIN.IO FUNCTIONS
-async function fetchFromBin() {
+// LOCAL STORAGE FUNCTIONS (основное хранилище)
+function lsGet(key, def) {
+  try {
+    const v = localStorage.getItem(key);
+    return v ? JSON.parse(v) : def;
+  } catch(e) {
+    return def;
+  }
+}
+
+function lsSet(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch(e) {
+    console.error('localStorage error:', e);
+    return false;
+  }
+}
+
+// SYNC STATUS INDICATOR
+function showSyncStatus(msg, isError) {
+  const el = document.getElementById('syncStatus');
+  el.textContent = msg;
+  el.className = 'sync-status show ' + (isError ? 'err' : 'ok');
+  setTimeout(() => {
+    el.className = 'sync-status';
+  }, 3000);
+}
+
+// JSONBIN.IO FUNCTIONS с retry логикой
+async function fetchFromBin(retryCount = 0) {
   try {
     const response = await fetch(BIN_URL, {
       method: 'GET',
       headers: { 'X-Master-Key': API_KEY }
     });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    
     const data = await response.json();
     return data.record;
   } catch (error) {
-    console.error('Error fetching from JSONBin:', error);
+    console.error('JSONBin fetch error:', error);
+    if (retryCount < 2) {
+      await new Promise(r => setTimeout(r, 1000 * (retryCount + 1)));
+      return fetchFromBin(retryCount + 1);
+    }
     return null;
   }
 }
 
-async function saveToBin(data) {
+async function saveToBin(data, retryCount = 0) {
+  if (syncInProgress) return false;
+  syncInProgress = true;
+  
   try {
     const response = await fetch(BIN_URL, {
       method: 'PUT',
@@ -669,16 +727,38 @@ async function saveToBin(data) {
       },
       body: JSON.stringify(data)
     });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    
     const result = await response.json();
+    showSyncStatus('✓ Синхронизировано', false);
     return result.success;
   } catch (error) {
-    console.error('Error saving to JSONBin:', error);
+    console.error('JSONBin save error:', error);
+    showSyncStatus(' Ошибка синхронизации', true);
+    if (retryCount < 2) {
+      await new Promise(r => setTimeout(r, 1000 * (retryCount + 1)));
+      return saveToBin(data, retryCount + 1);
+    }
     return false;
+  } finally {
+    syncInProgress = false;
   }
 }
 
-// Debounced save - сохраняет через 1 секунду после последнего изменения
+// Debounced save
 function scheduleSave() {
+  // Сначала сохраняем локально (мгновенно)
+  lsSet('gz_data', {
+    users: users,
+    bookings: bookings,
+    games: GAMES,
+    timestamp: Date.now()
+  });
+  
+  // Потом синхронизируем с сервером
   if (saveTimeout) clearTimeout(saveTimeout);
   saveTimeout = setTimeout(() => {
     saveToBin({
@@ -686,41 +766,45 @@ function scheduleSave() {
       bookings: bookings,
       games: GAMES
     });
-  }, 1000);
+  }, 2000);
 }
 
-// LOCAL STORAGE для сессии (быстро, не требует запроса к серверу)
-function saveSession() {
-  try {
-    localStorage.setItem('gz_session', JSON.stringify({user: S.user, role: S.role}));
-  } catch(e) {}
-}
-
-function loadSession() {
-  try {
-    const session = localStorage.getItem('gz_session');
-    return session ? JSON.parse(session) : null;
-  } catch(e) {
-    return null;
-  }
-}
-
-function clearSession() {
-  try {
-    localStorage.removeItem('gz_session');
-  } catch(e) {}
-}
-
-// LOAD DATA
+// LOAD DATA - приоритет: сервер > локальное хранилище
 async function loadData() {
-  const data = await fetchFromBin();
-  if (data) {
-    users = data.users || {};
-    bookings = data.bookings || [];
-    GAMES = data.games || [];
+  isLoading = true;
+  render();
+  
+  // Пробуем загрузить с сервера
+  const serverData = await fetchFromBin();
+  
+  if (serverData) {
+    // Есть данные на сервере - используем их
+    users = serverData.users || {};
+    bookings = serverData.bookings || [];
+    GAMES = serverData.games || [];
     
-    // Если игр нет, создаем дефолтные
-    if (GAMES.length === 0) {
+    // Сохраняем локально
+    lsSet('gz_data', {
+      users: users,
+      bookings: bookings,
+      games: GAMES,
+      timestamp: Date.now()
+    });
+    
+    showSyncStatus('✓ Данные загружены', false);
+  } else {
+    // Сервер недоступен - загружаем из localStorage
+    const localData = lsGet('gz_data', null);
+    
+    if (localData) {
+      users = localData.users || {};
+      bookings = localData.bookings || [];
+      GAMES = localData.games || [];
+      showSyncStatus('⚠ Локальные данные', true);
+    } else {
+      // Нет ни сервера, ни локальных данных - создаем дефолтные
+      users = {'admin': {name:'Администратор', pass:'admin123', role:'admin'}};
+      bookings = [];
       GAMES = [
         {id:'ps01',t:'GTA VI',          g:'Open World', p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg'},
         {id:'ps02',t:'EA FC 25',        g:'Футбол',     p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/capsule_616x353.jpg'},
@@ -730,36 +814,31 @@ async function loadData() {
         {id:'vr01',t:'Beat Saber',      g:'Ритм',         p:'VR', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/617830/capsule_616x353.jpg'}
       ];
       scheduleSave();
+      showSyncStatus('✓ Созданы новые данные', false);
     }
-    
-    // Создаем админа если нет
-    if (!users['admin']) {
-      users['admin'] = {name:'Администратор', pass:'admin123', role:'admin'};
-      scheduleSave();
-    }
-  } else {
-    // Initialize default data
-    users = {'admin': {name:'Администратор', pass:'admin123', role:'admin'}};
-    bookings = [];
-    GAMES = [
-      {id:'ps01',t:'GTA VI',          g:'Open World', p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg'},
-      {id:'ps02',t:'EA FC 25',        g:'Футбол',     p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/capsule_616x353.jpg'},
-      {id:'ps03',t:'Call of Duty BO6',g:'Шутер',      p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2933620/capsule_616x353.jpg'},
-      {id:'xb01',t:'Halo Infinite',   g:'Шутер',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/capsule_616x353.jpg'},
-      {id:'xb02',t:'Forza Horizon 5', g:'Гонки',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/capsule_616x353.jpg'},
-      {id:'vr01',t:'Beat Saber',      g:'Ритм',         p:'VR', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/617830/capsule_616x353.jpg'}
-    ];
+  }
+  
+  // Создаем админа если нет
+  if (!users['admin']) {
+    users['admin'] = {name:'Администратор', pass:'admin123', role:'admin'};
     scheduleSave();
   }
+  
   isLoading = false;
   
-  // Восстанавливаем сессию из localStorage
-  const session = loadSession();
-  if (session && session.user && users[Object.keys(users).find(k => users[k].name === session.user)]) {
-    S.user = session.user;
-    S.role = session.role;
-    S.screen = session.role === 'admin' ? 'admin' : 'booking';
+  // Восстанавливаем сессию
+  const session = lsGet('gz_session', null);
+  if (session && session.user) {
+    // Проверяем что пользователь существует
+    const userExists = Object.keys(users).some(k => users[k].name === session.user);
+    if (userExists) {
+      S.user = session.user;
+      S.role = session.role;
+      S.screen = session.role === 'admin' ? 'admin' : 'booking';
+    }
   }
+  
+  render();
 }
 
 // HELPER FUNCTIONS
@@ -1047,12 +1126,12 @@ function rAdmin() {
   if (S.newGame.img) {
     h += '<img src="'+esc(S.newGame.img)+'" alt="Preview">';
   } else {
-    h += '<div class="placeholder"><br>Загрузите изображение<br><small>JPG, PNG до 200KB</small></div>';
+    h += '<div class="placeholder">📷<br>Загрузите изображение<br><small>JPG, PNG до 200KB</small></div>';
   }
   h += '</div>';
   h += '<div class="file-input-wrapper">';
   h += '<input type="file" id="gameImage" accept="image/*" onchange="handleImageUpload(event)">';
-  h += '<label for="gameImage" class="file-input-label"> Выбрать изображение</label>';
+  h += '<label for="gameImage" class="file-input-label">📁 Выбрать изображение</label>';
   h += '</div>';
   h += '</div>';
   
@@ -1180,7 +1259,7 @@ function doLogin() {
   S.user = users[l].name || l;
   S.role = users[l].role || 'user';
   S.screen = S.role==='admin' ? 'admin' : 'booking';
-  saveSession();
+  lsSet('gz_session', {user: S.user, role: S.role});
   render();
 }
 
@@ -1197,14 +1276,14 @@ function doReg() {
   users[l] = {name:n, pass:p, role:'user'};
   scheduleSave();
   S.user=n; S.role='user'; S.screen='booking';
-  saveSession();
+  lsSet('gz_session', {user: S.user, role: S.role});
   render();
 }
 
 function doLogout() {
   S.user=null; S.role=null; S.screen='auth';
   S.game=null; S.date=null; S.time=null;
-  clearSession();
+  lsSet('gz_session', null);
   render();
 }
 
@@ -1227,9 +1306,7 @@ function delBook(id) {
 }
 
 // INITIALIZATION
-loadData().then(function() {
-  render();
-});
+loadData();
 </script>
 </body>
 </html>
