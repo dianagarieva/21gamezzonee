@@ -16,19 +16,17 @@
   --surface2: #1a1a26;
   --border: #2a2a40;
   --accent: #7c3aed;
-  --accent2: #a855f7;
   --neon: #c084fc;
   --green: #22c55e;
   --red: #ef4444;
-  --gray: #3f3f5a;
   --text: #e2e8f0;
   --muted: #6b7280;
   --yellow: #f59e0b;
 }
 
 body {
-  background-color: #0a0a0f;
-  color: #e2e8f0;
+  background-color: var(--bg);
+  color: var(--text);
   font-family: -apple-system, 'Inter', Arial, sans-serif;
   min-height: 100vh;
 }
@@ -38,7 +36,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 14px 16px;
-  border-bottom: 1px solid #2a2a40;
+  border-bottom: 1px solid var(--border);
   background-color: rgba(10,10,15,0.97);
   position: sticky;
   top: 0;
@@ -46,10 +44,10 @@ header {
 }
 
 .logo {
-  font-family: 'Orbitron', -apple-system, sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-weight: 900;
   font-size: 18px;
-  color: #c084fc;
+  color: var(--neon);
   white-space: nowrap;
 }
 .logo span { color: #a855f7; }
@@ -62,11 +60,11 @@ header {
 }
 
 .user-badge {
-  background-color: #1a1a26;
-  border: 1px solid #2a2a40;
+  background-color: var(--surface2);
+  border: 1px solid var(--border);
   padding: 5px 12px;
   border-radius: 20px;
-  color: #c084fc;
+  color: var(--neon);
   font-weight: 500;
   font-size: 13px;
   max-width: 110px;
@@ -76,24 +74,25 @@ header {
 }
 .admin-badge {
   background-color: rgba(245,158,11,0.1);
-  border: 1px solid #f59e0b;
+  border: 1px solid var(--yellow);
   padding: 5px 10px;
   border-radius: 20px;
-  color: #f59e0b;
+  color: var(--yellow);
   font-weight: 600;
   font-size: 11px;
 }
 .btn-sm {
   background: none;
-  border: 1px solid #2a2a40;
-  color: #6b7280;
+  border: 1px solid var(--border);
+  color: var(--muted);
   padding: 5px 11px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 12px;
-  font-family: -apple-system, 'Inter', Arial, sans-serif;
+  font-family: inherit;
   white-space: nowrap;
 }
+.btn-sm:active { opacity: 0.7; }
 
 main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
 
@@ -105,25 +104,25 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
   padding: 10px;
 }
 .auth-card {
-  background-color: #111118;
-  border: 1px solid #2a2a40;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 28px 22px;
   width: 100%;
   max-width: 400px;
 }
 .auth-card h2 {
-  font-family: 'Orbitron', -apple-system, sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-size: 15px;
-  color: #c084fc;
+  color: var(--neon);
   margin-bottom: 6px;
 }
-.auth-card p { color: #6b7280; font-size: 13px; margin-bottom: 22px; }
+.auth-card p { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
 
 .tabs {
   display: flex;
   margin-bottom: 20px;
-  border: 1px solid #2a2a40;
+  border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -133,24 +132,24 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
   text-align: center;
   background: none;
   border: none;
-  color: #6b7280;
+  color: var(--muted);
   cursor: pointer;
   font-size: 14px;
-  font-family: -apple-system, 'Inter', Arial, sans-serif;
+  font-family: inherit;
 }
-.tab-btn.on { background-color: #7c3aed; color: #fff; font-weight: 600; }
+.tab-btn.on { background-color: var(--accent); color: #fff; font-weight: 600; }
 
 .field { margin-bottom: 14px; }
-.field label { display: block; font-size: 12px; color: #6b7280; margin-bottom: 5px; font-weight: 500; }
+.field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; font-weight: 500; }
 .field input, .field select {
   width: 100%;
-  background-color: #1a1a26;
-  border: 1px solid #2a2a40;
+  background-color: var(--surface2);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px 14px;
-  color: #e2e8f0;
+  color: var(--text);
   font-size: 16px;
-  font-family: -apple-system, 'Inter', Arial, sans-serif;
+  font-family: inherit;
   outline: none;
 }
 .field input:focus, .field select:focus { border-color: #a855f7; }
@@ -158,87 +157,101 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
 .btn-main {
   width: 100%;
   padding: 14px;
-  background-color: #7c3aed;
+  background-color: var(--accent);
   border: none;
   border-radius: 8px;
   color: #fff;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  font-family: -apple-system, 'Inter', Arial, sans-serif;
+  font-family: inherit;
 }
 .btn-main:active { opacity: 0.85; }
 
-.err { color: #ef4444; font-size: 12px; margin-top: 10px; text-align: center; min-height: 18px; }
-.loading { color: #6b7280; font-size: 12px; margin-top: 10px; text-align: center; }
-.sync-status {
+.err { color: var(--red); font-size: 12px; margin-top: 10px; text-align: center; min-height: 18px; }
+
+.sync-bar {
   position: fixed;
-  bottom: 10px;
+  top: 60px;
   right: 10px;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 11px;
   z-index: 1000;
   display: none;
+  background: rgba(0,0,0,0.8);
+  border: 1px solid var(--border);
 }
-.sync-status.show { display: block; }
-.sync-status.ok { background: rgba(34,197,94,0.2); color: #22c55e; border: 1px solid #22c55e; }
-.sync-status.err { background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid #ef4444; }
+.sync-bar.show { display: block; }
+.sync-bar.ok { color: var(--green); border-color: var(--green); }
+.sync-bar.err { color: var(--red); border-color: var(--red); }
+.sync-bar.loading { color: var(--yellow); border-color: var(--yellow); }
+
+.btn-sync {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  z-index: 1000;
+  font-family: inherit;
+  box-shadow: 0 4px 12px rgba(124,58,237,0.4);
+}
+.btn-sync:active { opacity: 0.8; }
 
 .sec-title {
-  font-family: 'Orbitron', -apple-system, sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-size: 11px;
   letter-spacing: 1.5px;
-  color: #6b7280;
+  color: var(--muted);
   text-transform: uppercase;
   margin-bottom: 10px;
 }
 
-.plat-row {
+.plat-row, .games-grid, .time-grid, .stats-row, .filter-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 24px;
-  flex-wrap: wrap;
 }
-.plat-btn {
-  flex: 1;
-  min-width: 90px;
-  background-color: #111118;
-  border: 2px solid #2a2a40;
+.plat-btn, .date-btn, .time-slot {
+  background-color: var(--surface);
+  border: 2px solid var(--border);
   border-radius: 10px;
-  padding: 12px 6px;
-  cursor: pointer;
+  padding: 12px;
   text-align: center;
-  color: #e2e8f0;
+  cursor: pointer;
+  color: var(--text);
+  flex: 1;
+  min-width: 80px;
 }
-.plat-btn.on { border-color: #c084fc; background-color: rgba(192,132,252,0.07); }
+.plat-btn.on, .date-btn.on { border-color: var(--neon); background-color: rgba(192,132,252,0.07); }
 .plat-icon { font-size: 22px; display: block; margin-bottom: 4px; }
-.plat-name { font-size: 11px; font-weight: 600; color: #6b7280; }
-.plat-btn.on .plat-name { color: #c084fc; }
+.plat-name { font-size: 11px; font-weight: 600; color: var(--muted); }
+.plat-btn.on .plat-name { color: var(--neon); }
 
-.games-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 24px;
-}
 .game-card {
-  width: calc(25% - 6px);
-  background-color: #111118;
-  border: 2px solid #2a2a40;
+  width: calc(33.33% - 6px);
+  background-color: var(--surface);
+  border: 2px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
   position: relative;
 }
-.game-card.on { border-color: #c084fc; }
-.game-card.busy { opacity: 0.4; cursor: not-allowed; border-color: #3f3f5a; }
+.game-card.on { border-color: var(--neon); }
+.game-card.busy { opacity: 0.4; cursor: not-allowed; border-color: var(--muted); }
 
 .game-img-wrap {
   width: 100%;
   padding-bottom: 100%;
   position: relative;
-  background-color: #1a1a26;
+  background-color: var(--surface2);
   overflow: hidden;
 }
 .game-img-wrap img {
@@ -248,7 +261,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
   object-fit: cover;
   display: block;
 }
-.game-img-wrap .fallback-ico {
+.fallback-ico {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
@@ -256,13 +269,13 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
   align-items: center;
   justify-content: center;
   font-size: 32px;
-  background-color: #1a1a26;
+  background-color: var(--surface2);
 }
 .game-name {
   padding: 6px 5px;
   font-size: 11px;
   font-weight: 600;
-  color: #e2e8f0;
+  color: var(--text);
   text-align: center;
   line-height: 1.3;
   overflow: hidden;
@@ -288,86 +301,34 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
   overflow-x: auto;
   padding-bottom: 4px;
 }
-.date-btn {
-  flex-shrink: 0;
-  background-color: #111118;
-  border: 2px solid #2a2a40;
-  border-radius: 10px;
-  padding: 10px 14px;
-  cursor: pointer;
-  text-align: center;
-  color: #e2e8f0;
-  min-width: 58px;
-}
-.date-btn.on { border-color: #c084fc; background-color: rgba(192,132,252,0.07); }
-.date-day { font-size: 10px; color: #6b7280; }
-.date-num { font-size: 18px; font-weight: 700; font-family: 'Orbitron', -apple-system, sans-serif; }
-.date-btn.on .date-num { color: #c084fc; }
-.date-mon { font-size: 10px; color: #6b7280; }
+.date-btn { flex-shrink: 0; min-width: 60px; }
+.date-day { font-size: 10px; color: var(--muted); }
+.date-num { font-size: 18px; font-weight: 700; font-family: 'Orbitron', sans-serif; }
+.date-btn.on .date-num { color: var(--neon); }
+.date-mon { font-size: 10px; color: var(--muted); }
 
-.legend {
-  display: flex;
-  gap: 14px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-.leg-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  color: #6b7280;
-}
-.leg-dot {
-  width: 12px; height: 12px;
-  border-radius: 3px;
-  border: 2px solid;
-  flex-shrink: 0;
-}
-.leg-dot.free { border-color: #2a2a40; background-color: #111118; }
-.leg-dot.bkd  { background-color: #3f3f5a; border-color: #3f3f5a; }
-.leg-dot.sel  { border-color: #22c55e; background-color: rgba(34,197,94,0.08); }
+.legend { display: flex; gap: 14px; margin-bottom: 10px; flex-wrap: wrap; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); }
+.leg-dot { width: 12px; height: 12px; border-radius: 3px; border: 2px solid; flex-shrink: 0; }
+.leg-dot.free { border-color: var(--border); background-color: var(--surface); }
+.leg-dot.bkd  { background-color: var(--gray); border-color: var(--gray); }
+.leg-dot.sel  { border-color: var(--green); background-color: rgba(34,197,94,0.08); }
 
-.time-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 24px;
-}
-.time-slot {
-  background-color: #111118;
-  border: 2px solid #2a2a40;
-  border-radius: 8px;
-  padding: 9px 6px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  color: #e2e8f0;
-  width: calc(14.28% - 6px);
-  min-width: 56px;
-}
-.time-slot.on { border-color: #22c55e; background-color: rgba(34,197,94,0.07); color: #22c55e; }
-.time-slot.bkd { background-color: #3f3f5a; border-color: #3f3f5a; color: #555; cursor: not-allowed; }
+.time-slot { width: calc(25% - 6px); min-width: 50px; font-size: 13px; font-weight: 600; }
+.time-slot.on { border-color: var(--green); background-color: rgba(34,197,94,0.07); color: var(--green); }
+.time-slot.bkd { background-color: var(--gray); border-color: var(--gray); color: #555; cursor: not-allowed; }
 
 .summary {
-  background-color: #1a1a26;
-  border: 1px solid #2a2a40;
+  background-color: var(--surface2);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 20px;
 }
-.sum-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
+.sum-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
 .sum-item { min-width: 100px; }
-.sum-label { font-size: 11px; color: #6b7280; margin-bottom: 2px; }
-.sum-val { color: #c084fc; font-weight: 600; font-size: 13px; }
+.sum-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+.sum-val { color: var(--neon); font-weight: 600; font-size: 13px; }
 .btn-book {
   width: 100%;
   padding: 14px;
@@ -378,17 +339,17 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  font-family: -apple-system, 'Inter', Arial, sans-serif;
+  font-family: inherit;
 }
-.btn-book:disabled { background-color: #3f3f5a; cursor: not-allowed; color: #6b7280; }
+.btn-book:disabled { background-color: var(--gray); cursor: not-allowed; color: var(--muted); }
 .btn-book:not(:disabled):active { opacity: 0.85; }
 
 .success-wrap { text-align: center; padding: 40px 16px; }
-.success-wrap h2 { font-family: 'Orbitron', -apple-system, sans-serif; color: #22c55e; font-size: 18px; margin-bottom: 10px; }
-.success-wrap p  { color: #6b7280; font-size: 14px; margin-bottom: 20px; }
+.success-wrap h2 { font-family: 'Orbitron', sans-serif; color: var(--green); font-size: 18px; margin-bottom: 10px; }
+.success-wrap p  { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
 .confirm-box {
-  background-color: #1a1a26;
-  border: 1px solid #2a2a40;
+  background-color: var(--surface2);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 18px;
   display: inline-block;
@@ -397,216 +358,69 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
   min-width: 260px;
   max-width: 100%;
 }
-.c-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 7px 0;
-  border-bottom: 1px solid #2a2a40;
-  font-size: 13px;
-}
+.c-row { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
 .c-row:last-child { border-bottom: none; }
-.c-key { color: #6b7280; }
-.c-val { color: #e2e8f0; font-weight: 600; text-align: right; }
+.c-key { color: var(--muted); }
+.c-val { color: var(--text); font-weight: 600; text-align: right; }
 
-.admin-wrap h1 { font-family: 'Orbitron', -apple-system, sans-serif; font-size: 16px; color: #f59e0b; margin-bottom: 6px; }
-.admin-wrap .sub { color: #6b7280; font-size: 13px; margin-bottom: 18px; }
-.stats-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-.stat-card {
-  background-color: #111118;
-  border: 1px solid #2a2a40;
-  border-radius: 10px;
-  padding: 12px 16px;
-  flex: 1;
-  min-width: 90px;
-}
-.stat-num { font-family: 'Orbitron', -apple-system, sans-serif; font-size: 22px; font-weight: 700; color: #c084fc; }
-.stat-lbl { font-size: 11px; color: #6b7280; margin-top: 2px; }
+.admin-wrap h1 { font-family: 'Orbitron', sans-serif; font-size: 16px; color: var(--yellow); margin-bottom: 6px; }
+.admin-wrap .sub { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+.stat-card { background-color: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; flex: 1; min-width: 90px; }
+.stat-num { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 700; color: var(--neon); }
+.stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-.filter-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-  align-items: center;
-}
 .filter-row select, .filter-row input {
-  background-color: #1a1a26;
-  border: 1px solid #2a2a40;
+  background-color: var(--surface2);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 8px 12px;
-  color: #e2e8f0;
+  color: var(--text);
   font-size: 13px;
-  font-family: -apple-system, 'Inter', Arial, sans-serif;
+  font-family: inherit;
   outline: none;
 }
 .filter-row input { flex: 1; min-width: 160px; }
 
-.table-wrap {
-  background-color: #111118;
-  border: 1px solid #2a2a40;
-  border-radius: 12px;
-  overflow: hidden;
-  overflow-x: auto;
-}
+.table-wrap { background-color: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; overflow-x: auto; }
 .adm-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 480px; }
-.adm-table th {
-  text-align: left; padding: 10px 14px;
-  background-color: #1a1a26;
-  color: #6b7280; font-size: 11px; letter-spacing: 1px;
-  text-transform: uppercase;
-  border-bottom: 1px solid #2a2a40;
-  font-weight: 600;
-}
+.adm-table th { text-align: left; padding: 10px 14px; background-color: var(--surface2); color: var(--muted); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid var(--border); font-weight: 600; }
 .adm-table td { padding: 10px 14px; border-bottom: 1px solid rgba(42,42,64,0.5); vertical-align: middle; }
 .ptag { display: inline-block; padding: 3px 7px; border-radius: 5px; font-size: 11px; font-weight: 700; }
 .tag-ps5  { background-color: rgba(0,80,255,0.12); color: #60a5fa; border: 1px solid rgba(0,80,255,0.25); }
-.tag-xbox { background-color: rgba(34,197,94,0.08); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
-.tag-vr   { background-color: rgba(245,158,11,0.08); color: #f59e0b; border: 1px solid rgba(245,158,11,0.2); }
-.del-btn {
-  background: none;
-  border: 1px solid rgba(239,68,68,0.3);
-  color: #ef4444;
-  padding: 4px 9px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 12px;
-  font-family: -apple-system, 'Inter', Arial, sans-serif;
-}
-.empty { text-align: center; padding: 36px; color: #6b7280; font-size: 14px; }
+.tag-xbox { background-color: rgba(34,197,94,0.08); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+.tag-vr   { background-color: rgba(245,158,11,0.08); color: var(--yellow); border: 1px solid rgba(245,158,11,0.2); }
+.del-btn { background: none; border: 1px solid rgba(239,68,68,0.3); color: var(--red); padding: 4px 9px; border-radius: 5px; cursor: pointer; font-size: 12px; font-family: inherit; }
+.empty { text-align: center; padding: 36px; color: var(--muted); font-size: 14px; }
 
-.admin-games-section {
-  margin-top: 30px;
-  padding-top: 30px;
-  border-top: 1px solid #2a2a40;
-}
-.game-form {
-  background-color: #111118;
-  border: 1px solid #2a2a40;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-.game-form h3 {
-  font-family: 'Orbitron', sans-serif;
-  color: #c084fc;
-  font-size: 14px;
-  margin-bottom: 16px;
-}
-.form-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
+.admin-games-section { margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--border); }
+.game-form { background-color: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+.game-form h3 { font-family: 'Orbitron', sans-serif; color: var(--neon); font-size: 14px; margin-bottom: 16px; }
+.form-row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
 .form-row .field { flex: 1; min-width: 200px; }
-.img-preview {
-  width: 100%;
-  max-width: 300px;
-  height: 200px;
-  background-color: #1a1a26;
-  border: 2px dashed #2a2a40;
-  border-radius: 8px;
-  margin: 12px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-}
-.img-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.img-preview .placeholder {
-  color: #6b7280;
-  font-size: 13px;
-  text-align: center;
-  padding: 20px;
-}
-.file-input-wrapper {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  width: 100%;
-}
-.file-input-wrapper input[type=file] {
-  position: absolute;
-  left: -9999px;
-}
-.file-input-label {
-  display: block;
-  padding: 12px;
-  background-color: #1a1a26;
-  border: 1px solid #2a2a40;
-  border-radius: 8px;
-  text-align: center;
-  cursor: pointer;
-  color: #c084fc;
-  font-size: 13px;
-}
-.file-input-label:hover {
-  border-color: #c084fc;
-  background-color: rgba(192,132,252,0.05);
-}
-.btn-add {
-  background-color: #22c55e;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 14px;
-}
+.img-preview { width: 100%; max-width: 300px; height: 200px; background-color: var(--surface2); border: 2px dashed var(--border); border-radius: 8px; margin: 12px 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.img-preview img { width: 100%; height: 100%; object-fit: cover; }
+.img-preview .placeholder { color: var(--muted); font-size: 13px; text-align: center; padding: 20px; }
+.file-input-wrapper input[type=file] { display: none; }
+.file-input-label { display: block; padding: 12px; background-color: var(--surface2); border: 1px solid var(--border); border-radius: 8px; text-align: center; cursor: pointer; color: var(--neon); font-size: 13px; }
+.btn-add { background-color: var(--green); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; font-family: inherit; }
 .btn-add:active { opacity: 0.85; }
-.game-list-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background-color: #1a1a26;
-  border: 1px solid #2a2a40;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-.game-list-item img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-.game-list-info {
-  flex: 1;
-}
-.game-list-title {
-  font-weight: 600;
-  color: #e2e8f0;
-  font-size: 13px;
-}
-.game-list-meta {
-  font-size: 11px;
-  color: #6b7280;
-  margin-top: 2px;
-}
+.game-list-item { display: flex; align-items: center; gap: 12px; padding: 12px; background-color: var(--surface2); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; }
+.game-list-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
+.game-list-info { flex: 1; }
+.game-list-title { font-weight: 600; color: var(--text); font-size: 13px; }
+.game-list-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
 @media (max-width: 480px) {
   main { padding: 14px 10px 50px; }
-  .game-card { width: calc(33.33% - 6px); }
-  .time-slot { width: calc(25% - 5px); min-width: 50px; font-size: 12px; }
+  .game-card { width: calc(50% - 4px); }
+  .time-slot { width: calc(33.33% - 5px); min-width: 50px; font-size: 12px; }
   .auth-card { padding: 22px 16px; }
   .logo { font-size: 15px; }
   .form-row { flex-direction: column; }
   .form-row .field { min-width: 100%; }
 }
 @media (max-width: 360px) {
-  .game-card { width: calc(50% - 4px); }
+  .game-card { width: 100%; }
 }
 </style>
 </head>
@@ -619,34 +433,35 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
 
 <main id="root"></main>
 
-<div id="syncStatus" class="sync-status"></div>
+<div id="syncBar" class="sync-bar"></div>
+<button id="syncBtn" class="btn-sync" style="display:none" onclick="manualSync()">🔄 Обновить данные</button>
 
 <script>
-// JSONBIN.IO CONFIGURATION
+// ============ КОНФИГУРАЦИЯ JSONBIN ============
 const BIN_ID = '6a3b77d1da38895dfef5b2c2';
 const API_KEY = '$2a$10$pEvy0ct1XR/MqXrtEi0G2.JeN4MZB40N5qlDEXMB5YCKb1wZ4SR/O';
-const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const BIN_URL = 'https://api.jsonbin.io/v3/b/' + BIN_ID;
 
-// DATA
+// ============ ДАННЫЕ ============
 var PLATFORMS = [
   {id:'PS5',  icon:'🎮', label:'PlayStation 5'},
   {id:'XBOX', icon:'🟢', label:'Xbox Series X'},
-  {id:'VR',   icon:'', label:'Meta Quest VR'}
+  {id:'VR',   icon:'🥽', label:'Meta Quest VR'}
 ];
 
-var EMO = {'RPG':'🧙','Шутер':'🔫','Экшн':'⚔️','Файтинг':'','Гонки':'🏎️',
-  'Футбол':'⚽','Баскетбол':'🏀','Ритм':'🎵','Пазлы':'🧩','Хоррор':'👻',
-  'Гольф':'⛳','Теннис':'🏓','MMORPG':'🌐','Sci-Fi':'🚀','Инди':'','def':'🎮'};
+var EMO = {'RPG':'','Шутер':'🔫','Экшн':'⚔️','Файтинг':'🥊','Гонки':'🏎️',
+  'Футбол':'','Баскетбол':'🏀','Ритм':'🎵','Пазлы':'🧩','Хоррор':'👻',
+  'Гольф':'⛳','Теннис':'🏓','MMORPG':'🌐','Sci-Fi':'🚀','Инди':'🎵','def':'🎮'};
 
 var TIMES = ['09:00','10:00','11:00','12:00','13:00','14:00','15:00',
              '16:00','17:00','18:00','19:00','20:00','21:00','22:00'];
 var DAYS  = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 var MONS  = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
 
-// STATE
+// ============ СОСТОЯНИЕ ============
 var S = {
   screen: 'auth', tab: 'login',
-  user: null, role: null,
+  user: null, role: null, userLogin: null,
   plat: 'PS5', game: null, date: null, time: null,
   last: null,
   af: {plat:'', date:'', q:''},
@@ -656,70 +471,54 @@ var S = {
 var users = {};
 var bookings = [];
 var GAMES = [];
-var isLoading = true;
 var saveTimeout = null;
 var syncInProgress = false;
 
-// LOCAL STORAGE FUNCTIONS (основное хранилище)
+// ============ LOCAL STORAGE (мгновенно) ============
 function lsGet(key, def) {
   try {
-    const v = localStorage.getItem(key);
+    var v = localStorage.getItem(key);
     return v ? JSON.parse(v) : def;
-  } catch(e) {
-    return def;
-  }
+  } catch(e) { return def; }
 }
 
 function lsSet(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
     return true;
-  } catch(e) {
-    console.error('localStorage error:', e);
-    return false;
-  }
+  } catch(e) { return false; }
 }
 
-// SYNC STATUS INDICATOR
-function showSyncStatus(msg, isError) {
-  const el = document.getElementById('syncStatus');
+// ============ СИНХРОНИЗАЦИЯ ============
+function showSync(msg, type) {
+  var el = document.getElementById('syncBar');
   el.textContent = msg;
-  el.className = 'sync-status show ' + (isError ? 'err' : 'ok');
-  setTimeout(() => {
-    el.className = 'sync-status';
-  }, 3000);
+  el.className = 'sync-bar show ' + type;
+  setTimeout(function() { el.className = 'sync-bar'; }, 2500);
 }
 
-// JSONBIN.IO FUNCTIONS с retry логикой
-async function fetchFromBin(retryCount = 0) {
+async function fetchFromServer() {
   try {
-    const response = await fetch(BIN_URL, {
+    var resp = await fetch(BIN_URL, {
       method: 'GET',
       headers: { 'X-Master-Key': API_KEY }
     });
-    
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    
-    const data = await response.json();
+    if (!resp.ok) return null;
+    var data = await resp.json();
     return data.record;
-  } catch (error) {
-    console.error('JSONBin fetch error:', error);
-    if (retryCount < 2) {
-      await new Promise(r => setTimeout(r, 1000 * (retryCount + 1)));
-      return fetchFromBin(retryCount + 1);
-    }
+  } catch(e) {
+    console.error('Fetch error:', e);
     return null;
   }
 }
 
-async function saveToBin(data, retryCount = 0) {
+async function saveToServer(data) {
   if (syncInProgress) return false;
   syncInProgress = true;
+  showSync(' Синхронизация...', 'loading');
   
   try {
-    const response = await fetch(BIN_URL, {
+    var resp = await fetch(BIN_URL, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -727,30 +526,24 @@ async function saveToBin(data, retryCount = 0) {
       },
       body: JSON.stringify(data)
     });
-    
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+    if (resp.ok) {
+      showSync('✓ Сохранено', 'ok');
+      return true;
+    } else {
+      showSync('✗ Ошибка сервера', 'err');
+      return false;
     }
-    
-    const result = await response.json();
-    showSyncStatus('✓ Синхронизировано', false);
-    return result.success;
-  } catch (error) {
-    console.error('JSONBin save error:', error);
-    showSyncStatus(' Ошибка синхронизации', true);
-    if (retryCount < 2) {
-      await new Promise(r => setTimeout(r, 1000 * (retryCount + 1)));
-      return saveToBin(data, retryCount + 1);
-    }
+  } catch(e) {
+    console.error('Save error:', e);
+    showSync('✗ Нет связи', 'err');
     return false;
   } finally {
     syncInProgress = false;
   }
 }
 
-// Debounced save
+// Сохранение: сначала локально (мгновенно), потом на сервер
 function scheduleSave() {
-  // Сначала сохраняем локально (мгновенно)
   lsSet('gz_data', {
     users: users,
     bookings: bookings,
@@ -758,90 +551,110 @@ function scheduleSave() {
     timestamp: Date.now()
   });
   
-  // Потом синхронизируем с сервером
   if (saveTimeout) clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(() => {
-    saveToBin({
-      users: users,
-      bookings: bookings,
-      games: GAMES
-    });
-  }, 2000);
+  saveTimeout = setTimeout(function() {
+    saveToServer({ users: users, bookings: bookings, games: GAMES });
+  }, 1500);
 }
 
-// LOAD DATA - приоритет: сервер > локальное хранилище
-async function loadData() {
-  isLoading = true;
-  render();
-  
-  // Пробуем загрузить с сервера
-  const serverData = await fetchFromBin();
-  
-  if (serverData) {
-    // Есть данные на сервере - используем их
-    users = serverData.users || {};
-    bookings = serverData.bookings || [];
-    GAMES = serverData.games || [];
-    
-    // Сохраняем локально
-    lsSet('gz_data', {
-      users: users,
-      bookings: bookings,
-      games: GAMES,
-      timestamp: Date.now()
-    });
-    
-    showSyncStatus('✓ Данные загружены', false);
+// Ручная синхронизация
+async function manualSync() {
+  showSync('⏳ Загрузка с сервера...', 'loading');
+  var data = await fetchFromServer();
+  if (data) {
+    users = data.users || users;
+    bookings = data.bookings || bookings;
+    GAMES = data.games || GAMES;
+    lsSet('gz_data', { users: users, bookings: bookings, games: GAMES, timestamp: Date.now() });
+    showSync('✓ Данные обновлены', 'ok');
+    render();
   } else {
-    // Сервер недоступен - загружаем из localStorage
-    const localData = lsGet('gz_data', null);
-    
-    if (localData) {
-      users = localData.users || {};
-      bookings = localData.bookings || [];
-      GAMES = localData.games || [];
-      showSyncStatus('⚠ Локальные данные', true);
-    } else {
-      // Нет ни сервера, ни локальных данных - создаем дефолтные
-      users = {'admin': {name:'Администратор', pass:'admin123', role:'admin'}};
-      bookings = [];
-      GAMES = [
-        {id:'ps01',t:'GTA VI',          g:'Open World', p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg'},
-        {id:'ps02',t:'EA FC 25',        g:'Футбол',     p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/capsule_616x353.jpg'},
-        {id:'ps03',t:'Call of Duty BO6',g:'Шутер',      p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2933620/capsule_616x353.jpg'},
-        {id:'xb01',t:'Halo Infinite',   g:'Шутер',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/capsule_616x353.jpg'},
-        {id:'xb02',t:'Forza Horizon 5', g:'Гонки',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/capsule_616x353.jpg'},
-        {id:'vr01',t:'Beat Saber',      g:'Ритм',         p:'VR', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/617830/capsule_616x353.jpg'}
-      ];
-      scheduleSave();
-      showSyncStatus('✓ Созданы новые данные', false);
-    }
+    showSync('✗ Не удалось загрузить', 'err');
   }
-  
-  // Создаем админа если нет
-  if (!users['admin']) {
-    users['admin'] = {name:'Администратор', pass:'admin123', role:'admin'};
-    scheduleSave();
-  }
-  
-  isLoading = false;
-  
-  // Восстанавливаем сессию
-  const session = lsGet('gz_session', null);
-  if (session && session.user) {
-    // Проверяем что пользователь существует
-    const userExists = Object.keys(users).some(k => users[k].name === session.user);
-    if (userExists) {
-      S.user = session.user;
-      S.role = session.role;
-      S.screen = session.role === 'admin' ? 'admin' : 'booking';
-    }
-  }
-  
-  render();
 }
 
-// HELPER FUNCTIONS
+// ============ ЗАГРУЗКА ДАННЫХ (БЫСТРАЯ) ============
+function loadData() {
+  // 1. МГНОВЕННО загружаем из localStorage
+  var localData = lsGet('gz_data', null);
+  
+  if (localData && localData.users) {
+    users = localData.users;
+    bookings = localData.bookings || [];
+    GAMES = localData.games || [];
+  } else {
+    // Дефолтные данные
+    users = { 'admin': { name: 'Администратор', pass: 'admin123', role: 'admin' } };
+    bookings = [];
+    GAMES = getDefaultGames();
+    lsSet('gz_data', { users: users, bookings: bookings, games: GAMES, timestamp: Date.now() });
+  }
+  
+  // 2. Восстанавливаем сессию (по логину, не по имени!)
+  var session = lsGet('gz_session', null);
+  if (session && session.login && users[session.login]) {
+    S.userLogin = session.login;
+    S.user = users[session.login].name;
+    S.role = users[session.login].role;
+    S.screen = S.role === 'admin' ? 'admin' : 'booking';
+  }
+  
+  // 3. Рендерим СРАЗУ (мгновенно)
+  render();
+  showSyncBtn();
+  
+  // 4. В ФОНЕ синхронизируем с сервером
+  syncFromServer();
+}
+
+async function syncFromServer() {
+  var data = await fetchFromServer();
+  if (data && data.users) {
+    var serverTime = data.timestamp || 0;
+    var localTime = lsGet('gz_data', {}).timestamp || 0;
+    
+    // Если сервер новее — обновляем
+    if (serverTime > localTime) {
+      users = data.users;
+      bookings = data.bookings || [];
+      GAMES = data.games || [];
+      lsSet('gz_data', { users: users, bookings: bookings, games: GAMES, timestamp: serverTime });
+      
+      // Проверяем сессию
+      if (S.userLogin && !users[S.userLogin]) {
+        S.user = null; S.role = null; S.userLogin = null;
+        S.screen = 'auth';
+        lsSet('gz_session', null);
+      }
+      
+      showSync('✓ Обновлено с сервера', 'ok');
+      render();
+    } else {
+      showSync('✓ Актуально', 'ok');
+    }
+  }
+}
+
+function getDefaultGames() {
+  return [
+    {id:'ps01',t:'GTA VI',          g:'Open World', p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg'},
+    {id:'ps02',t:'EA FC 25',        g:'Футбол',     p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/capsule_616x353.jpg'},
+    {id:'ps03',t:'Call of Duty BO6',g:'Шутер',      p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2933620/capsule_616x353.jpg'},
+    {id:'ps04',t:'Spider-Man 2',    g:'Экшн',       p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg'},
+    {id:'ps05',t:'Elden Ring',      g:'RPG',         p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/capsule_616x353.jpg'},
+    {id:'xb01',t:'Halo Infinite',   g:'Шутер',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/capsule_616x353.jpg'},
+    {id:'xb02',t:'Forza Horizon 5', g:'Гонки',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/capsule_616x353.jpg'},
+    {id:'xb03',t:'Minecraft',       g:'Sandbox',     p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1672970/capsule_616x353.jpg'},
+    {id:'vr01',t:'Beat Saber',      g:'Ритм',         p:'VR', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/617830/capsule_616x353.jpg'},
+    {id:'vr02',t:'Superhot VR',     g:'Шутер',        p:'VR', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/617830/capsule_616x353.jpg'}
+  ];
+}
+
+function showSyncBtn() {
+  document.getElementById('syncBtn').style.display = 'block';
+}
+
+// ============ ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ============
 function getDates() {
   var res = [], today = new Date();
   for (var i = 0; i < 7; i++) {
@@ -876,14 +689,9 @@ function genId() {
   return 'g' + Date.now() + Math.random().toString(36).substr(2, 5);
 }
 
-// RENDER FUNCTIONS
+// ============ РЕНДЕР ============
 function render() {
   var root = document.getElementById('root');
-  if (isLoading) {
-    root.innerHTML = '<div style="text-align:center;padding:40px;color:#6b7280">Загрузка данных...</div>';
-    return;
-  }
-  
   if      (S.screen==='auth')    root.innerHTML = rAuth();
   else if (S.screen==='booking') root.innerHTML = rBooking();
   else if (S.screen==='success') root.innerHTML = rSuccess();
@@ -914,10 +722,10 @@ function rAuth() {
   h += '<button class="tab-btn'+(lg?' on':'')+'" onclick="setTab(\'login\')">Войти</button>';
   h += '<button class="tab-btn'+(!lg?' on':'')+'" onclick="setTab(\'reg\')">Регистрация</button>';
   h += '</div>';
-  if (!lg) h += '<div class="field"><label>Имя игрока</label><input id="rn" type="text" placeholder="Ваш ник" autocomplete="nickname"/></div>';
-  h += '<div class="field"><label>Логин</label><input id="al" type="text" placeholder="Ваш логин" autocomplete="username"/></div>';
-  h += '<div class="field"><label>Пароль</label><input id="ap" type="password" placeholder="Пароль" autocomplete="current-password"/></div>';
-  if (!lg) h += '<div class="field"><label>Повторите пароль</label><input id="ap2" type="password" placeholder="Повторите пароль" autocomplete="new-password"/></div>';
+  if (!lg) h += '<div class="field"><label>Имя игрока</label><input id="rn" type="text" placeholder="Ваш ник"/></div>';
+  h += '<div class="field"><label>Логин</label><input id="al" type="text" placeholder="Ваш логин"/></div>';
+  h += '<div class="field"><label>Пароль</label><input id="ap" type="password" placeholder="Пароль"/></div>';
+  if (!lg) h += '<div class="field"><label>Повторите пароль</label><input id="ap2" type="password" placeholder="Повторите пароль"/></div>';
   h += '<button class="btn-main" onclick="'+(lg?'doLogin()':'doReg()')+'">'+( lg?'Войти':'Создать аккаунт')+'</button>';
   h += '<div class="err" id="ae"></div>';
   h += '</div></div>';
@@ -1101,11 +909,9 @@ function rAdmin() {
   h += '</div>';
   if (list.length > 0) h += '<p style="color:#6b7280;font-size:11px;margin-top:8px">Показано: '+list.length+' из '+bookings.length+'</p>';
 
-  // Секция управления играми
   h += '<div class="admin-games-section">';
   h += '<h2 style="font-family:\'Orbitron\';color:#f59e0b;font-size:15px;margin-bottom:16px">📚 Управление играми</h2>';
   
-  // Форма добавления игры
   h += '<div class="game-form">';
   h += '<h3>Добавить новую игру</h3>';
   h += '<div class="form-row">';
@@ -1131,14 +937,13 @@ function rAdmin() {
   h += '</div>';
   h += '<div class="file-input-wrapper">';
   h += '<input type="file" id="gameImage" accept="image/*" onchange="handleImageUpload(event)">';
-  h += '<label for="gameImage" class="file-input-label">📁 Выбрать изображение</label>';
+  h += '<label for="gameImage" class="file-input-label"> Выбрать изображение</label>';
   h += '</div>';
   h += '</div>';
   
-  h += '<button class="btn-add" onclick="addGame()" style="margin-top:12px">➕ Добавить игру</button>';
+  h += '<button class="btn-add" onclick="addGame()" style="margin-top:12px"> Добавить игру</button>';
   h += '</div>';
 
-  // Список существующих игр
   h += '<h3 style="font-family:\'Orbitron\';color:#c084fc;font-size:13px;margin:20px 0 12px">Существующие игры ('+GAMES.length+')</h3>';
   
   var gamesByPlat = {'PS5':[], 'XBOX':[], 'VR':[]};
@@ -1176,7 +981,7 @@ function rAdmin() {
   return h;
 }
 
-// ACTION FUNCTIONS
+// ============ ДЕЙСТВИЯ ============
 function setTab(t)  { S.tab=t; render(); }
 function setPlat(p) { S.plat=p; S.game=null; render(); }
 function setGame(id){ S.game=id; render(); }
@@ -1256,10 +1061,13 @@ function doLogin() {
   if (!l||!p) { e.textContent='Заполни все поля'; return; }
   if (!users[l]) { e.textContent='Пользователь не найден'; return; }
   if (users[l].pass !== p) { e.textContent='Неверный пароль'; return; }
+  
+  S.userLogin = l;
   S.user = users[l].name || l;
   S.role = users[l].role || 'user';
   S.screen = S.role==='admin' ? 'admin' : 'booking';
-  lsSet('gz_session', {user: S.user, role: S.role});
+  
+  lsSet('gz_session', { login: S.userLogin, name: S.user, role: S.role });
   render();
 }
 
@@ -1273,15 +1081,21 @@ function doReg() {
   if (p !== p2)   { e.textContent='Пароли не совпадают'; return; }
   if (p.length<4) { e.textContent='Пароль минимум 4 символа'; return; }
   if (users[l])   { e.textContent='Такой логин уже занят'; return; }
+  
   users[l] = {name:n, pass:p, role:'user'};
   scheduleSave();
-  S.user=n; S.role='user'; S.screen='booking';
-  lsSet('gz_session', {user: S.user, role: S.role});
+  
+  S.userLogin = l;
+  S.user = n;
+  S.role = 'user';
+  S.screen = 'booking';
+  
+  lsSet('gz_session', { login: S.userLogin, name: S.user, role: S.role });
   render();
 }
 
 function doLogout() {
-  S.user=null; S.role=null; S.screen='auth';
+  S.user=null; S.role=null; S.userLogin=null; S.screen='auth';
   S.game=null; S.date=null; S.time=null;
   lsSet('gz_session', null);
   render();
@@ -1305,7 +1119,7 @@ function delBook(id) {
   render();
 }
 
-// INITIALIZATION
+// ============ ЗАПУСК ============
 loadData();
 </script>
 </body>
