@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>21GameZone</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap');
@@ -141,7 +142,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
 
 .field { margin-bottom: 14px; }
 .field label { display: block; font-size: 12px; color: #6b7280; margin-bottom: 5px; font-weight: 500; }
-.field input {
+.field input, .field select {
   width: 100%;
   background-color: #1a1a26;
   border: 1px solid #2a2a40;
@@ -152,7 +153,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
   font-family: -apple-system, 'Inter', Arial, sans-serif;
   outline: none;
 }
-.field input:focus { border-color: #a855f7; }
+.field input:focus, .field select:focus { border-color: #a855f7; }
 
 .btn-main {
   width: 100%;
@@ -466,12 +467,130 @@ main { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
 }
 .empty { text-align: center; padding: 36px; color: #6b7280; font-size: 14px; }
 
+.admin-games-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #2a2a40;
+}
+.game-form {
+  background-color: #111118;
+  border: 1px solid #2a2a40;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.game-form h3 {
+  font-family: 'Orbitron', sans-serif;
+  color: #c084fc;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.form-row .field { flex: 1; min-width: 200px; }
+.img-preview {
+  width: 100%;
+  max-width: 300px;
+  height: 200px;
+  background-color: #1a1a26;
+  border: 2px dashed #2a2a40;
+  border-radius: 8px;
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.img-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.img-preview .placeholder {
+  color: #6b7280;
+  font-size: 13px;
+  text-align: center;
+  padding: 20px;
+}
+.file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+}
+.file-input-wrapper input[type=file] {
+  position: absolute;
+  left: -9999px;
+}
+.file-input-label {
+  display: block;
+  padding: 12px;
+  background-color: #1a1a26;
+  border: 1px solid #2a2a40;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  color: #c084fc;
+  font-size: 13px;
+}
+.file-input-label:hover {
+  border-color: #c084fc;
+  background-color: rgba(192,132,252,0.05);
+}
+.btn-add {
+  background-color: #22c55e;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+.btn-add:active { opacity: 0.85; }
+.game-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: #1a1a26;
+  border: 1px solid #2a2a40;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.game-list-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.game-list-info {
+  flex: 1;
+}
+.game-list-title {
+  font-weight: 600;
+  color: #e2e8f0;
+  font-size: 13px;
+}
+.game-list-meta {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
 @media (max-width: 480px) {
   main { padding: 14px 10px 50px; }
   .game-card { width: calc(33.33% - 6px); }
   .time-slot { width: calc(25% - 5px); min-width: 50px; font-size: 12px; }
   .auth-card { padding: 22px 16px; }
   .logo { font-size: 15px; }
+  .form-row { flex-direction: column; }
+  .form-row .field { min-width: 100%; }
 }
 @media (max-width: 360px) {
   .game-card { width: calc(50% - 4px); }
@@ -500,22 +619,9 @@ var PLATFORMS = [
   {id:'VR',   icon:'🥽', label:'Meta Quest VR'}
 ];
 
-var GAMES = [
-  {id:'ps01',t:'GTA VI',          g:'Open World', p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg'},
-  {id:'ps02',t:'EA FC 25',        g:'Футбол',     p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/capsule_616x353.jpg'},
-  {id:'ps03',t:'Call of Duty BO6',g:'Шутер',      p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2933620/capsule_616x353.jpg'},
-  {id:'ps04',t:'Spider-Man 2',    g:'Экшн',       p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg'},
-  {id:'ps05',t:'Elden Ring',      g:'RPG',         p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/capsule_616x353.jpg'},
-  {id:'xb01',t:'Halo Infinite',   g:'Шутер',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/capsule_616x353.jpg'},
-  {id:'xb02',t:'Forza Horizon 5', g:'Гонки',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/capsule_616x353.jpg'},
-  {id:'xb03',t:'Minecraft',       g:'Sandbox',     p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1672970/capsule_616x353.jpg'},
-  {id:'vr01',t:'Beat Saber',      g:'Ритм',         p:'VR', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/617830/capsule_616x353.jpg'},
-  {id:'vr02',t:'Superhot VR',     g:'Шутер',        p:'VR', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/617830/capsule_616x353.jpg'}
-];
-
-var EMO = {'RPG':'🧙','Шутер':'🔫','Экшн':'⚔️','Файтинг':'🥊','Гонки':'🏎️',
+var EMO = {'RPG':'','Шутер':'🔫','Экшн':'⚔️','Файтинг':'🥊','Гонки':'🏎️',
   'Футбол':'⚽','Баскетбол':'🏀','Ритм':'🎵','Пазлы':'🧩','Хоррор':'👻',
-  'Гольф':'⛳','Теннис':'🏓','MMORPG':'🌐','Sci-Fi':'🚀','Инди':'🎵','def':'🎮'};
+  'Гольф':'⛳','Теннис':'🏓','MMORPG':'🌐','Sci-Fi':'🚀','Инди':'','def':'🎮'};
 
 var TIMES = ['09:00','10:00','11:00','12:00','13:00','14:00','15:00',
              '16:00','17:00','18:00','19:00','20:00','21:00','22:00'];
@@ -528,22 +634,22 @@ var S = {
   user: null, role: null,
   plat: 'PS5', game: null, date: null, time: null,
   last: null,
-  af: {plat:'', date:'', q:''}
+  af: {plat:'', date:'', q:''},
+  newGame: {t:'', g:'', p:'PS5', img:''}
 };
 
 var users = {};
 var bookings = [];
-var session = null;
+var GAMES = [];
 var isLoading = true;
+var saveTimeout = null;
 
 // JSONBIN.IO FUNCTIONS
 async function fetchFromBin() {
   try {
     const response = await fetch(BIN_URL, {
       method: 'GET',
-      headers: {
-        'X-Master-Key': API_KEY
-      }
+      headers: { 'X-Master-Key': API_KEY }
     });
     const data = await response.json();
     return data.record;
@@ -571,33 +677,89 @@ async function saveToBin(data) {
   }
 }
 
+// Debounced save - сохраняет через 1 секунду после последнего изменения
+function scheduleSave() {
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
+    saveToBin({
+      users: users,
+      bookings: bookings,
+      games: GAMES
+    });
+  }, 1000);
+}
+
+// LOCAL STORAGE для сессии (быстро, не требует запроса к серверу)
+function saveSession() {
+  try {
+    localStorage.setItem('gz_session', JSON.stringify({user: S.user, role: S.role}));
+  } catch(e) {}
+}
+
+function loadSession() {
+  try {
+    const session = localStorage.getItem('gz_session');
+    return session ? JSON.parse(session) : null;
+  } catch(e) {
+    return null;
+  }
+}
+
+function clearSession() {
+  try {
+    localStorage.removeItem('gz_session');
+  } catch(e) {}
+}
+
+// LOAD DATA
 async function loadData() {
   const data = await fetchFromBin();
   if (data) {
     users = data.users || {};
     bookings = data.bookings || [];
-    session = data.session || null;
-
-    if (session && session.user) {
-      S.user = session.user;
-      S.role = session.role;
-      S.screen = session.role === 'admin' ? 'admin' : 'booking';
+    GAMES = data.games || [];
+    
+    // Если игр нет, создаем дефолтные
+    if (GAMES.length === 0) {
+      GAMES = [
+        {id:'ps01',t:'GTA VI',          g:'Open World', p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg'},
+        {id:'ps02',t:'EA FC 25',        g:'Футбол',     p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/capsule_616x353.jpg'},
+        {id:'ps03',t:'Call of Duty BO6',g:'Шутер',      p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2933620/capsule_616x353.jpg'},
+        {id:'xb01',t:'Halo Infinite',   g:'Шутер',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/capsule_616x353.jpg'},
+        {id:'xb02',t:'Forza Horizon 5', g:'Гонки',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/capsule_616x353.jpg'},
+        {id:'vr01',t:'Beat Saber',      g:'Ритм',         p:'VR', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/617830/capsule_616x353.jpg'}
+      ];
+      scheduleSave();
+    }
+    
+    // Создаем админа если нет
+    if (!users['admin']) {
+      users['admin'] = {name:'Администратор', pass:'admin123', role:'admin'};
+      scheduleSave();
     }
   } else {
     // Initialize default data
     users = {'admin': {name:'Администратор', pass:'admin123', role:'admin'}};
     bookings = [];
-    session = null;
+    GAMES = [
+      {id:'ps01',t:'GTA VI',          g:'Open World', p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg'},
+      {id:'ps02',t:'EA FC 25',        g:'Футбол',     p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/capsule_616x353.jpg'},
+      {id:'ps03',t:'Call of Duty BO6',g:'Шутер',      p:'PS5', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2933620/capsule_616x353.jpg'},
+      {id:'xb01',t:'Halo Infinite',   g:'Шутер',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/capsule_616x353.jpg'},
+      {id:'xb02',t:'Forza Horizon 5', g:'Гонки',       p:'XBOX',img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/capsule_616x353.jpg'},
+      {id:'vr01',t:'Beat Saber',      g:'Ритм',         p:'VR', img:'https://cdn.cloudflare.steamstatic.com/steam/apps/617830/capsule_616x353.jpg'}
+    ];
+    scheduleSave();
   }
   isLoading = false;
-}
-
-async function saveData() {
-  await saveToBin({
-    users: users,
-    bookings: bookings,
-    session: session
-  });
+  
+  // Восстанавливаем сессию из localStorage
+  const session = loadSession();
+  if (session && session.user && users[Object.keys(users).find(k => users[k].name === session.user)]) {
+    S.user = session.user;
+    S.role = session.role;
+    S.screen = session.role === 'admin' ? 'admin' : 'booking';
+  }
 }
 
 // HELPER FUNCTIONS
@@ -631,6 +793,10 @@ function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+function genId() {
+  return 'g' + Date.now() + Math.random().toString(36).substr(2, 5);
+}
+
 // RENDER FUNCTIONS
 function render() {
   var root = document.getElementById('root');
@@ -638,7 +804,7 @@ function render() {
     root.innerHTML = '<div style="text-align:center;padding:40px;color:#6b7280">Загрузка данных...</div>';
     return;
   }
-
+  
   if      (S.screen==='auth')    root.innerHTML = rAuth();
   else if (S.screen==='booking') root.innerHTML = rBooking();
   else if (S.screen==='success') root.innerHTML = rSuccess();
@@ -706,8 +872,10 @@ function rBooking() {
     h += '<div class="'+cls+'" onclick="'+click+'">';
     if (busy) h += '<span class="busy-badge">ЗАНЯТО</span>';
     h += '<div class="game-img-wrap">';
-    h += '<img src="'+esc(g.img)+'" alt="'+esc(g.t)+'" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">';
-    h += '<div class="fallback-ico" style="display:none">'+emo+'</div>';
+    if (g.img && g.img.trim() !== '') {
+      h += '<img src="'+esc(g.img)+'" alt="'+esc(g.t)+'" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">';
+    }
+    h += '<div class="fallback-ico" style="'+(g.img && g.img.trim() !== ''?'display:none':'')+'">'+emo+'</div>';
     h += '</div>';
     h += '<div class="game-name">'+esc(g.t)+'</div>';
     h += '</div>';
@@ -801,10 +969,11 @@ function rAdmin() {
 
   var h = '<div class="admin-wrap">';
   h += '<h1>Панель администратора</h1>';
-  h += '<p class="sub">Все бронирования</p>';
+  h += '<p class="sub">Управление бронированиями и играми</p>';
 
   h += '<div class="stats-row">';
-  h += '<div class="stat-card"><div class="stat-num">'+bookings.length+'</div><div class="stat-lbl">Всего</div></div>';
+  h += '<div class="stat-card"><div class="stat-num">'+bookings.length+'</div><div class="stat-lbl">Броней</div></div>';
+  h += '<div class="stat-card"><div class="stat-num" style="color:#c084fc">'+GAMES.length+'</div><div class="stat-lbl">Игр</div></div>';
   h += '<div class="stat-card"><div class="stat-num" style="color:#60a5fa">'+ps5c+'</div><div class="stat-lbl">PS5</div></div>';
   h += '<div class="stat-card"><div class="stat-num" style="color:#22c55e">'+xbc+'</div><div class="stat-lbl">Xbox</div></div>';
   h += '<div class="stat-card"><div class="stat-num" style="color:#f59e0b">'+vrc+'</div><div class="stat-lbl">VR</div></div>';
@@ -852,6 +1021,78 @@ function rAdmin() {
   }
   h += '</div>';
   if (list.length > 0) h += '<p style="color:#6b7280;font-size:11px;margin-top:8px">Показано: '+list.length+' из '+bookings.length+'</p>';
+
+  // Секция управления играми
+  h += '<div class="admin-games-section">';
+  h += '<h2 style="font-family:\'Orbitron\';color:#f59e0b;font-size:15px;margin-bottom:16px">📚 Управление играми</h2>';
+  
+  // Форма добавления игры
+  h += '<div class="game-form">';
+  h += '<h3>Добавить новую игру</h3>';
+  h += '<div class="form-row">';
+  h += '<div class="field"><label>Название игры</label><input type="text" id="gameTitle" placeholder="Например: GTA VI" value="'+esc(S.newGame.t)+'"></div>';
+  h += '<div class="field"><label>Жанр</label><input type="text" id="gameGenre" placeholder="Например: Экшн" value="'+esc(S.newGame.g)+'"></div>';
+  h += '</div>';
+  h += '<div class="form-row">';
+  h += '<div class="field"><label>Платформа</label><select id="gamePlatform">';
+  for (var i=0; i<PLATFORMS.length; i++) {
+    var pl = PLATFORMS[i];
+    h += '<option value="'+pl.id+'"'+(S.newGame.p===pl.id?' selected':'')+'>'+pl.label+'</option>';
+  }
+  h += '</select></div>';
+  h += '</div>';
+  
+  h += '<div class="field"><label>Изображение игры</label>';
+  h += '<div class="img-preview" id="imgPreview">';
+  if (S.newGame.img) {
+    h += '<img src="'+esc(S.newGame.img)+'" alt="Preview">';
+  } else {
+    h += '<div class="placeholder"><br>Загрузите изображение<br><small>JPG, PNG до 200KB</small></div>';
+  }
+  h += '</div>';
+  h += '<div class="file-input-wrapper">';
+  h += '<input type="file" id="gameImage" accept="image/*" onchange="handleImageUpload(event)">';
+  h += '<label for="gameImage" class="file-input-label"> Выбрать изображение</label>';
+  h += '</div>';
+  h += '</div>';
+  
+  h += '<button class="btn-add" onclick="addGame()" style="margin-top:12px">➕ Добавить игру</button>';
+  h += '</div>';
+
+  // Список существующих игр
+  h += '<h3 style="font-family:\'Orbitron\';color:#c084fc;font-size:13px;margin:20px 0 12px">Существующие игры ('+GAMES.length+')</h3>';
+  
+  var gamesByPlat = {'PS5':[], 'XBOX':[], 'VR':[]};
+  for (var i=0; i<GAMES.length; i++) {
+    gamesByPlat[GAMES[i].p].push(GAMES[i]);
+  }
+  
+  for (var pi=0; pi<PLATFORMS.length; pi++) {
+    var platId = PLATFORMS[pi].id;
+    var platGames = gamesByPlat[platId];
+    if (platGames.length > 0) {
+      h += '<div style="margin-bottom:16px">';
+      h += '<div style="color:#6b7280;font-size:12px;margin-bottom:8px">'+PLATFORMS[pi].label+' ('+platGames.length+')</div>';
+      for (var gi=0; gi<platGames.length; gi++) {
+        var gm = platGames[gi];
+        h += '<div class="game-list-item">';
+        if (gm.img && gm.img.trim() !== '') {
+          h += '<img src="'+esc(gm.img)+'" alt="'+esc(gm.t)+'">';
+        } else {
+          h += '<div style="width:60px;height:60px;background:#1a1a26;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:24px">'+(EMO[gm.g]||EMO['def'])+'</div>';
+        }
+        h += '<div class="game-list-info">';
+        h += '<div class="game-list-title">'+esc(gm.t)+'</div>';
+        h += '<div class="game-list-meta">'+esc(gm.g)+' • '+gm.id+'</div>';
+        h += '</div>';
+        h += '<button class="del-btn" onclick="delGame(\''+gm.id+'\')">Удалить</button>';
+        h += '</div>';
+      }
+      h += '</div>';
+    }
+  }
+  
+  h += '</div>';
   h += '</div>';
   return h;
 }
@@ -867,7 +1108,69 @@ function goBook()   { S.screen='booking'; render(); }
 function afSet(k,v) { S.af[k]=v; render(); }
 function afClear()  { S.af={plat:'',date:'',q:''}; render(); }
 
-async function doLogin() {
+function handleImageUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  
+  if (file.size > 200 * 1024) {
+    alert('Изображение слишком большое! Максимум 200KB. Сейчас: ' + Math.round(file.size / 1024) + 'KB');
+    return;
+  }
+  
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    S.newGame.img = e.target.result;
+    render();
+  };
+  reader.readAsDataURL(file);
+}
+
+function addGame() {
+  var title = document.getElementById('gameTitle').value.trim();
+  var genre = document.getElementById('gameGenre').value.trim();
+  var plat = document.getElementById('gamePlatform').value;
+  
+  if (!title || !genre) {
+    alert('Заполните название и жанр игры');
+    return;
+  }
+  
+  var newGame = {
+    id: genId(),
+    t: title,
+    g: genre,
+    p: plat,
+    img: S.newGame.img || ''
+  };
+  
+  GAMES.push(newGame);
+  scheduleSave();
+  
+  S.newGame = {t:'', g:'', p:'PS5', img:''};
+  render();
+  alert('Игра добавлена!');
+}
+
+function delGame(id) {
+  var hasBookings = false;
+  for (var i=0; i<bookings.length; i++) {
+    if (bookings[i].game === id) { hasBookings = true; break; }
+  }
+  
+  if (hasBookings) {
+    if (!confirm('На эту игру есть бронирования! Удалить всё равно?')) return;
+  } else {
+    if (!confirm('Удалить эту игру?')) return;
+  }
+  
+  for (var i=0; i<GAMES.length; i++) {
+    if (GAMES[i].id === id) { GAMES.splice(i, 1); break; }
+  }
+  scheduleSave();
+  render();
+}
+
+function doLogin() {
   var l = document.getElementById('al').value.trim();
   var p = document.getElementById('ap').value;
   var e = document.getElementById('ae');
@@ -877,12 +1180,11 @@ async function doLogin() {
   S.user = users[l].name || l;
   S.role = users[l].role || 'user';
   S.screen = S.role==='admin' ? 'admin' : 'booking';
-  session = {user: S.user, role: S.role};
-  await saveData();
+  saveSession();
   render();
 }
 
-async function doReg() {
+function doReg() {
   var n = document.getElementById('rn').value.trim();
   var l = document.getElementById('al').value.trim();
   var p = document.getElementById('ap').value;
@@ -893,36 +1195,34 @@ async function doReg() {
   if (p.length<4) { e.textContent='Пароль минимум 4 символа'; return; }
   if (users[l])   { e.textContent='Такой логин уже занят'; return; }
   users[l] = {name:n, pass:p, role:'user'};
-  await saveData();
+  scheduleSave();
   S.user=n; S.role='user'; S.screen='booking';
-  session = {user: S.user, role: S.role};
-  await saveData();
+  saveSession();
   render();
 }
 
-async function doLogout() {
+function doLogout() {
   S.user=null; S.role=null; S.screen='auth';
   S.game=null; S.date=null; S.time=null;
-  session = null;
-  await saveData();
+  clearSession();
   render();
 }
 
-async function doBook() {
+function doBook() {
   if (!S.game||!S.date||!S.time) return;
   var b = {id:Date.now(), user:S.user, game:S.game, date:S.date, time:S.time, plat:S.plat};
   bookings.push(b);
-  await saveData();
+  scheduleSave();
   S.last=b; S.game=null; S.date=null; S.time=null; S.screen='success';
   render();
 }
 
-async function delBook(id) {
+function delBook(id) {
   if (!confirm('Удалить эту бронь?')) return;
   for (var i=0; i<bookings.length; i++) {
     if (bookings[i].id===id) { bookings.splice(i,1); break; }
   }
-  await saveData();
+  scheduleSave();
   render();
 }
 
